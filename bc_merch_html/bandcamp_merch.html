@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bandcamp merch scraper</title>
+  <style>
+      /* Style the tab */
+      .tab {
+          overflow: hidden;
+          border: 1px solid #ccc;
+          background-color: #f1f1f1;
+      }
+
+      /* Style the buttons that are used to open the tab content */
+      .tab button {
+          background-color: inherit;
+          float: left;
+          border: none;
+          outline: none;
+          cursor: pointer;
+          padding: 14px 16px;
+          transition: 0.3s;
+      }
+
+      /* Change background color of buttons on hover */
+      .tab button:hover {
+          background-color: #ddd;
+      }
+
+      /* Create an active/current tablink class */
+      .tab button.active {
+          background-color: #ccc;
+      }
+
+      /* Style the tab content */
+      .tabcontent {
+          display: none;
+          padding: 6px 12px;
+          border: 1px solid #ccc;
+          border-top: none;
+      }
+
+      li {
+          display: inline-block;
+          vertical-align: top;
+          margin: 0 26px 30px 0;
+          position: relative;
+          width: 270px;
+      }
+
+      a {
+          text-decoration: none !important;
+      }
+
+      a {
+          padding: 0px;
+      }
+
+      ol {
+          margin: 0 auto;
+          text-align: center;
+      }
+
+      img {
+          width: 270px;
+      }
+
+      body {
+          background: #202020;
+          color: #d7d7d7;
+          line-height: .9;
+      }
+
+      .title {
+          color: #5d9ae1;
+      }
+
+      .bandname {
+          padding: 8px;
+          color: #c2b1e3;
+          font-size: 19px;
+      }
+
+      .merchtype {
+          color: #76d2de;
+      }
+  </style>
+  <script>
+      window.onload = function () {
+          var elements = document.getElementsByTagName('*'),
+              i;
+          for (i in elements) {
+              if (elements[i].hasAttribute && elements[i].hasAttribute('data-include')) {
+                  fragment(elements[i], elements[i].getAttribute('data-include'));
+              }
+          }
+
+          function fragment(el, url) {
+              var localTest = /^(?:file):/,
+                  xmlhttp = new XMLHttpRequest(),
+                  status = 0;
+
+              xmlhttp.onreadystatechange = function () {
+                  /* if we are on a local protocol, and we have response text, we'll assume
+             *  				things were sucessful */
+                  if (xmlhttp.readyState == 4) {
+                      status = xmlhttp.status;
+                  }
+                  if (localTest.test(location.href) && xmlhttp.responseText) {
+                      status = 200;
+                  }
+                  if (xmlhttp.readyState == 4 && status == 200) {
+                      el.outerHTML = xmlhttp.responseText;
+                  }
+              }
+
+              try {
+                  xmlhttp.open("GET", url, true);
+                  xmlhttp.send();
+              } catch (err) {
+                  /* todo catch error */
+              }
+          }
+      }
+  </script>
+  <script src="bandcamp_merch.js"></script>
+</head>
+<body>
+<!-- Tab links -->
+<div class="tab">
+<!--  <button class="tablinks" onclick="openCity(event, 'London')">London</button>-->
+<!--  <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>-->
+<!--  <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>-->
+  <button class="tablinks" onclick="openCity(event, 'hardcore')">hardcore</button>
+  <button class="tablinks" onclick="openCity(event, 'black-metal')">black metal</button>
+  <button class="tablinks" onclick="openCity(event, 'death-metal')">death metal</button>
+  <button class="tablinks" onclick="openCity(event, 'thrash-metal')">thrash metal</button>
+<!--  <button class="tablinks" onclick="openCity(event, 'grindcore')">grindcore</button>-->
+<!--  <button class="tablinks" onclick="openCity(event, 'doom')">doom</button>-->
+<!--  <button class="tablinks" onclick="openCity(event, 'post-hardcore')">post-hardcore</button>-->
+<!--  <button class="tablinks" onclick="openCity(event, 'progressive-metal')">prog metal</button>-->
+<!--  <button class="tablinks" onclick="openCity(event, 'metalcore')">metalcore</button>-->
+<!--  <button class="tablinks" onclick="openCity(event, 'sludge-metal')">sludge metal</button>-->
+<!--  <button class="tablinks" onclick="openCity(event, 'heavy-metal')">heavy metal</button>-->
+<!--  <button class="tablinks" onclick="openCity(event, 'deathcore')">deathcore</button>-->
+<!--  <button class="tablinks" onclick="openCity(event, 'noise')">noise</button>-->
+</div>
+
+<!--&lt;!&ndash; Tab content &ndash;&gt;-->
+<!--<div id="London" class="tabcontent">-->
+<!--  <h3>London</h3>-->
+<!--  <p>London is the capital city of England.</p>-->
+<!--</div>-->
+
+<!--<div id="Paris" class="tabcontent">-->
+<!--  <h3>Paris</h3>-->
+<!--  <p>Paris is the capital of France.</p>-->
+<!--</div>-->
+
+<!--<div id="Tokyo" class="tabcontent">-->
+<!--  <h3>Tokyo</h3>-->
+<!--  <p>Tokyo is the capital of Japan.</p>-->
+<!--</div>-->
+<div data-include="grids/hardcore_merch_grid.html"></div>
+<div data-include="grids/black_metal_merch_grid.html"></div>
+<div data-include="grids/death_metal_merch_grid.html"></div>
+<div data-include="grids/thrash_metal_merch_grid.html"></div>
+<div data-include="grids/grindcore_merch_grid.html"></div>
+<div data-include="grids/doom_merch_grid.html"></div>
+<div data-include="grids/post_hardcore_merch_grid.html"></div>
+<div data-include="grids/progressive_metal_merch_grid.html"></div>
+<div data-include="grids/metalcore_merch_grid.html"></div>
+<div data-include="grids/sludge_metal_merch_grid.html"></div>
+<div data-include="grids/heavy_metal_merch_grid.html"></div>
+<div data-include="grids/deathcore_merch_grid.html"></div>
+<div data-include="grids/noise_merch_grid.html"></div>
+</body>
+</html>
