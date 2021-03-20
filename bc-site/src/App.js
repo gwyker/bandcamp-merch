@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Grommet,
   Grid,
@@ -10,39 +10,6 @@ import {
   CardBody, Image, Stack,
 } from 'grommet';
 import './App.css';
-
-// class MerchGrid extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       cells: Array(props.numCells).fill('testCell'),
-//     }
-//   }
-//
-//   renderCell(i) {
-//     return (
-//         <Cell msg={i}>
-//           {this.state.cells[i]}
-//         </Cell>
-//     )
-//   }
-//
-//   render() {
-//     const cells = this.state.cells.slice()
-//     // const testcells =
-//     return (
-//         <div>
-//           {this.renderCell(0)}
-//         </div>
-//     )
-//   }
-// }
-//
-// function Cell(props) {
-//   return (
-//       <li>{props.msg}</li>
-//   )
-// }
 
 const theme = {
   global: {
@@ -72,30 +39,24 @@ const items = [
   },
 ]
 
-
-class MerchGrid extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  renderItem(item, index) {
-    const itemDisplay = (
-        <div>
-          <span>{item.name}</span>
-          <span>{item.bandname}</span>
-          <span>{item.type}</span>
-          <img src={item.image}/>
-        </div>
-    )
-    return (
-      <Card width='medium' pad={null} background='light-1' key={[item.name, item.bandname]}>
+function MerchItem(props) {
+  const itemDisplay = (
+      <div>
+        <span>{props.name}</span>
+        <span>{props.bandname}</span>
+        <span>{props.type}</span>
+        <img src={props.image}/>
+      </div>
+  )
+  return (
+      <Card width='medium' pad={null} background='light-1' key={[props.name, props.bandname]}>
         <Stack
             anchor='bottom-left'
-          >
+        >
           <CardBody pad={null}>
             <Image
                 fit='cover'
-                src={item.image}>
+                src={props.image}>
             </Image>
           </CardBody>
           <CardFooter
@@ -104,7 +65,7 @@ class MerchGrid extends React.Component {
               background='#00000080'
               width='medium'
           >
-            {item.name}
+            {props.name}
           </CardFooter>
         </Stack>
         {/*<CardHeader pad='small'>Header</CardHeader>*/}
@@ -112,40 +73,40 @@ class MerchGrid extends React.Component {
         {/*<CardFooter pad='small'>Footer</CardFooter>*/}
         {/*{itemDisplay}*/}
       </Card>
-    )
-  }
+  )
+}
 
-  render() {
-    const merchItems = Array(10).fill('sample');
-    return (
-        <ResponsiveContext.Consumer>
-          {size => (
-              <Grid
-                rows=''
-                columns={size !== 'small' ? 'medium' : '100%'}
-                gap='small'
-              >
-                {items.map(this.renderItem)}
-              </Grid>
-              // <Grid
-              //     columns
-              // >
-              //   <Box gridArea='header' background='brand'/>
-              //   <Box gridArea='nav' background='light-5'/>
-              //   <Box gridArea='main' background='light-2'/>
-              // </Grid>
-          )}
-        </ResponsiveContext.Consumer>
-    )
-  }
+function MerchGrid(props) {
+  return (
+      <ResponsiveContext.Consumer>
+        {size => (
+            <Grid
+              rows=''
+              columns={size !== 'small' ? 'medium' : '100%'}
+              gap='small'
+            >
+              {props.merchData.map(MerchItem)}
+            </Grid>
+        )}
+      </ResponsiveContext.Consumer>
+  )
 }
 
 function App() {
+  const [merchData, setMerchData] = useState(items);
   return (
       <Grommet theme={theme} background='light-3' full>
         <div className="App">
           <Box>
-            <MerchGrid/>
+            <MerchGrid
+              merchData={merchData}
+              onClick={() => {
+                console.log('ooo')
+                const i = items.slice();
+                i[0].name = 'ok';
+                setMerchData(i);
+              }}
+            />
           </Box>
         </div>
       </Grommet>
