@@ -39,24 +39,24 @@ const items = [
   },
 ]
 
-function MerchItem(props) {
-  const itemDisplay = (
-      <div>
-        <span>{props.name}</span>
-        <span>{props.bandname}</span>
-        <span>{props.type}</span>
-        <img src={props.image}/>
-      </div>
-  )
+function MerchItem({name, bandname, type, image}) {
+  // const itemDisplay = (
+  //     <div>
+  //       <span>{name}</span>
+  //       <span>{bandname}</span>
+  //       <span>{type}</span>
+  //       <img src={image}/>
+  //     </div>
+  // )
   return (
-      <Card width='medium' pad={null} background='light-1' key={[props.name, props.bandname]}>
+      <Card width='medium' pad={null} background='light-1' key={[name, bandname]}>
         <Stack
             anchor='bottom-left'
         >
           <CardBody pad={null}>
             <Image
                 fit='cover'
-                src={props.image}>
+                src={image}>
             </Image>
           </CardBody>
           <CardFooter
@@ -65,7 +65,7 @@ function MerchItem(props) {
               background='#00000080'
               width='medium'
           >
-            {props.name}
+            {name}
           </CardFooter>
         </Stack>
         {/*<CardHeader pad='small'>Header</CardHeader>*/}
@@ -76,7 +76,7 @@ function MerchItem(props) {
   )
 }
 
-function MerchGrid(props) {
+function MerchGrid({merchData}) {
   return (
       <ResponsiveContext.Consumer>
         {size => (
@@ -85,11 +85,23 @@ function MerchGrid(props) {
               columns={size !== 'small' ? 'medium' : '100%'}
               gap='small'
             >
-              {props.merchData.map(MerchItem)}
+              {merchData
+                .map(({
+                        name, bandname, type, image
+                      }) => {
+                  return (
+                    <MerchItem
+                      name={name}
+                      bandname={bandname}
+                      type={type}
+                      image={image}
+                    />
+                  );
+                })}
             </Grid>
         )}
       </ResponsiveContext.Consumer>
-  )
+  );
 }
 
 function App() {
