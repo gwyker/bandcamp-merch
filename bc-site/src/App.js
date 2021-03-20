@@ -40,14 +40,6 @@ const items = [
 ]
 
 function MerchItem({name, bandname, type, image}) {
-  // const itemDisplay = (
-  //     <div>
-  //       <span>{name}</span>
-  //       <span>{bandname}</span>
-  //       <span>{type}</span>
-  //       <img src={image}/>
-  //     </div>
-  // )
   return (
       <Card width='medium' pad={null} background='light-1' key={[name, bandname]}>
         <Stack
@@ -112,12 +104,6 @@ function App() {
           <Box>
             <MerchGrid
               merchData={merchData}
-              onClick={() => {
-                console.log('ooo')
-                const i = items.slice();
-                i[0].name = 'ok';
-                setMerchData(i);
-              }}
             />
           </Box>
         </div>
